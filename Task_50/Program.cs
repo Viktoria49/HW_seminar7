@@ -7,32 +7,46 @@
 // 8 4 2 4
 // 1, 7 -> такого элемента в массиве нет.
 
-Console.Write("Введите индекс строки: ");
-int pos1 = Convert.ToInt32(Console.ReadLine());
-Console.Write("Введите индекс столбеца: ");
-int pos2 = Convert.ToInt32(Console.ReadLine());
-int n = 4; 
-int m = 3; 
-Random random = new Random();
-int[,] arr = new int[n, m];
-Console.WriteLine("Исходный массив: ");
+Console.Write("Введите позицию элемента в строке: ");
+int first = int.Parse(Console.ReadLine());
+Console.Write("Введите позицию элемента в столбце: ");
+int second = int.Parse(Console.ReadLine());
 
-for (int i = 0; i < arr.GetLength(0); i++)
+void Print(int[,] arr)
 {
-    for (int j = 0; j < arr.GetLength(1); j++)
+    int row_size = arr.GetLength(0);
+    int column_size = arr.GetLength(1);
+
+    for (int i = 0; i < row_size; i++)
     {
-        arr[i, j] = random.Next(10, 99);
-        Console.Write("{0} ", arr[i, j]);
+        for (int j = 0; j < column_size; j++)
+            Console.Write($" {arr[i, j]} ");
+        Console.WriteLine();
     }
     Console.WriteLine();
 }
 
-    if (pos1 < 0 | pos1 > arr.GetLength(0) - 1 | pos2 < 0 | pos2 > arr.GetLength(1) - 1)
+int[,] MassNums(int row, int column, int from, int to)
 {
-    Console.WriteLine("Элемент не существует  ");
+    int[,] arr = new int[row, column];
+
+    for (int i = 0; i < row; i++)
+        for (int j = 0; j < column; j++)
+            arr[i, j] = new Random().Next(from, to);
+    return arr;
 }
-    else
+
+string FindElement(int[,] arr, int f, int s)
 {
-    Console.Write("Значение элемента массива = {0}", arr[pos1, pos2]);
+    int row = arr.GetLength(0);
+    int column = arr.GetLength(1);
+
+    if (f > row || f <= 0 || s > column || s <= 0)
+        return $"{f} {s} такого элемента нет";
+    return $"arr[{f}, {s}] значение элемента массива = {arr[f - 1, s - 1]} ";
 }
-Console.ReadLine();
+
+int[,] arr_1 = MassNums(3, 4, 1, 11);
+Print(arr_1);
+
+Console.WriteLine(FindElement(arr_1, first, second));
